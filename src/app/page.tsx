@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { Github, Star, GitFork } from 'lucide-react';
+import { Github, Star, GitFork, Rocket } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@/components/ui/card';
 import Background from '@/components/background';
@@ -17,11 +17,10 @@ interface Repo {
 async function getRepos(): Promise<Repo[]> {
   try {
     const res = await fetch('https://api.github.com/users/FenchsApps/repos?sort=updated&per_page=100', {
-      next: { revalidate: 3600 } // Revalidate every hour
+      next: { revalidate: 300 } // Revalidate every 5 minutes
     });
     if (!res.ok) {
       console.error('Failed to fetch GitHub repos:', res.status, res.statusText);
-      // Return an empty array or throw an error to stop the build on failure
       return [];
     }
     const data = await res.json();
@@ -54,6 +53,14 @@ export default async function Home() {
     <>
       <Background />
       <div className="relative z-10">
+        <header className="absolute top-0 right-0 p-4 md:p-8">
+          <Button asChild variant="outline" className="bg-card/30 backdrop-blur-sm border-white/10 hover:border-primary transition-all duration-300">
+            <a href="https://fenchsapps.github.io/app-navigator" target="_blank" rel="noopener noreferrer">
+              <Rocket className="mr-2 h-4 w-4" />
+              App Navigator
+            </a>
+          </Button>
+        </header>
         <main className="flex flex-col items-center min-h-screen p-4 md:p-8 lg:p-12 overflow-hidden">
           <div className="w-full max-w-4xl text-center mt-12 md:mt-24">
             <h1 className="text-5xl md:text-8xl lg:text-9xl font-extrabold tracking-tighter text-transparent bg-clip-text bg-gradient-to-br from-white to-purple-400">
